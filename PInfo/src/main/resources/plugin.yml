@@ -1,0 +1,6 @@
+name: PInfo
+version: 1.0.0-SNAPSHOT
+main: photon.pinfo.main.Main
+commands:
+  whois:
+  admin:

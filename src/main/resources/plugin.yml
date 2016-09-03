@@ -1,0 +1,4 @@
+name: PInfo
+version: ${project.version}
+main: photon.pinfo.main.Main
+authors: [Photon156]
