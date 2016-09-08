@@ -17,7 +17,7 @@ public class ScrollableString extends FrameAnimatedString {
     private ChatColor color = ChatColor.RESET;
 
     public ScrollableString(String message, int width, int spaceBetween) {
-        list = new ArrayList<>();
+        list = new ArrayList<String>();
         // String is too short for window?
         if (message.length() < width) {
             StringBuilder sb = new StringBuilder(message);

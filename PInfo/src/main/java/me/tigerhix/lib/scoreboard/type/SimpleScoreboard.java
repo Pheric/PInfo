@@ -33,7 +33,7 @@ public class SimpleScoreboard implements Scoreboard {
 
     private boolean activated;
     private ScoreboardHandler handler;
-    private Map<FakePlayer, Integer> entryCache = new ConcurrentHashMap<>();
+    private Map<FakePlayer, Integer> entryCache = new ConcurrentHashMap<FakePlayer,Integer>();
     private Table<String, Integer, FakePlayer> playerCache = HashBasedTable.create();
     private Table<Team, String, String> teamCache = HashBasedTable.create();
     private BukkitRunnable updateTask;
@@ -46,16 +46,16 @@ public class SimpleScoreboard implements Scoreboard {
         objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
     }
 
-    @Override
+    
     public void activate() {
         if (activated) return;
-        if (handler == null) throw new IllegalArgumentException("Scoreboard handler not set");
+        if (handler == null) throw new IllegalArgumentException("ScoreboardMain handler not set");
         activated = true;
         // Set to the custom scoreboard
         holder.setScoreboard(scoreboard);
         // And start updating on a desired interval
         updateTask = new BukkitRunnable() {
-            @Override
+            
             public void run() {
                 update();
             }
@@ -63,7 +63,7 @@ public class SimpleScoreboard implements Scoreboard {
         updateTask.runTaskTimer(ScoreboardLib.getPluginInstance(), 0, updateInterval);
     }
 
-    @Override
+    
     public void deactivate() {
         if (!activated) return;
         activated = false;
@@ -81,35 +81,35 @@ public class SimpleScoreboard implements Scoreboard {
         updateTask.cancel();
     }
 
-    @Override
+    
     public boolean isActivated() {
         return activated;
     }
 
-    @Override
+    
     public ScoreboardHandler getHandler() {
         return handler;
     }
 
-    @Override
+    
     public Scoreboard setHandler(ScoreboardHandler handler) {
         this.handler = handler;
         return this;
     }
 
-    @Override
+    
     public long getUpdateInterval() {
         return updateInterval;
     }
 
-    @Override
+    
     public SimpleScoreboard setUpdateInterval(long updateInterval) {
-        if (activated) throw new IllegalStateException("Scoreboard is already activated");
+        if (activated) throw new IllegalStateException("ScoreboardMain is already activated");
         this.updateInterval = updateInterval;
         return this;
     }
 
-    @Override
+    
     public Player getHolder() {
         return holder;
     }
@@ -126,8 +126,8 @@ public class SimpleScoreboard implements Scoreboard {
         if (!objective.getDisplayName().equals(finalTitle)) objective.setDisplayName(Strings.format(finalTitle));
         // Entries
         List<Entry> passed = handler.getEntries(holder);
-        Map<String, Integer> appeared = new HashMap<>();
-        Map<FakePlayer, Integer> current = new HashMap<>();
+        Map<String, Integer> appeared = new HashMap<String, Integer>();
+        Map<FakePlayer, Integer> current = new HashMap<FakePlayer,Integer>();
         if (passed == null) return;
         for (Entry entry : passed) {
             // Handle the entry
@@ -249,79 +249,79 @@ public class SimpleScoreboard implements Scoreboard {
             return team.getPrefix() + name + team.getSuffix();
         }
 
-        @Override
+        
         public boolean isOnline() {
             return true;
         }
 
-        @Override
+        
         public String getName() {
             return name;
         }
 
-        @Override
+        
         public UUID getUniqueId() {
             return UUID.randomUUID();
         }
 
-        @Override
+        
         public boolean isBanned() {
             return false;
         }
 
-        @Override
+        
         public void setBanned(boolean banned) {
         }
 
-        @Override
+        
         public boolean isWhitelisted() {
             return false;
         }
 
-        @Override
+        
         public void setWhitelisted(boolean whitelisted) {
         }
 
-        @Override
+        
         public Player getPlayer() {
             return null;
         }
 
-        @Override
+        
         public long getFirstPlayed() {
             return 0;
         }
 
-        @Override
+        
         public long getLastPlayed() {
             return 0;
         }
 
-        @Override
+        
         public boolean hasPlayedBefore() {
             return false;
         }
 
-        @Override
+        
         public Location getBedSpawnLocation() {
             return null;
         }
 
-        @Override
+        
         public Map<String, Object> serialize() {
             return null;
         }
 
-        @Override
+        
         public boolean isOp() {
             return false;
         }
 
-        @Override
+        
         public void setOp(boolean op) {
         }
 
-        @Override
+        
         public String toString() {
             return "FakePlayer{" +
                     "name='" + name + '\'' +

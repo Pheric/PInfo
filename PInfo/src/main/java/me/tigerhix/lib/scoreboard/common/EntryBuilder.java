@@ -12,7 +12,7 @@ import java.util.List;
  */
 public final class EntryBuilder {
 
-    private final LinkedList<Entry> entries = new LinkedList<>();
+    private final LinkedList<Entry> entries = new LinkedList<Entry>();
 
     /**
      * Append a blank line.

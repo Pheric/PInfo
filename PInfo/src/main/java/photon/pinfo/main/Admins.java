@@ -6,17 +6,17 @@ import photon.pinfo.gui.main.GUI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Admins {
+class Admins {
     private Main Main;
-    public void Admins(Main Main){
+    Admins(Main Main,GUI gui){
         this.Main=Main;
+        this.gui=gui;
     }
-    long updateInterval=20;
+    private GUI gui;
     List<Player> admins=new ArrayList<Player>();
-    public void addAdmin(Player target){
+    void addAdmin(Player target){
         if(!admins.contains(target)){
             admins.add(target);
-            GUI gui=new GUI();
             gui.setGUI(target);
             if (target.getLevel() != 0) {
                 Main.getConfig().set("admins." + target.getUniqueId() + ".level", target.getLevel());
@@ -28,10 +28,9 @@ public class Admins {
             Main.reloadConfig();
         }
     }
-    public void removeAdmin(Player target){
+    void removeAdmin(Player target){
         if(admins.contains(target)){
             admins.remove(target);
-            GUI gui=new GUI();
             gui.removeGUI(target);
             target.setLevel(Main.getConfig().getInt(target.getUniqueId()+".level"));
             target.setExp((float)Main.getConfig().getDouble(target.getUniqueId()+".exp"));
@@ -40,9 +39,9 @@ public class Admins {
             Main.reloadConfig();
         }
     }
-    public boolean isAdmin(Player target){
+    boolean isAdmin(Player target){
         if(admins.contains(target))return true;
         return false;
     }
-    public List<Player> getAdmins(){return admins;}
+    List<Player> getAdmins(){return admins;}
 }

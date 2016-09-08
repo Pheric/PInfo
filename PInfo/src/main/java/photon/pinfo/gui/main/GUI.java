@@ -1,29 +1,48 @@
 package photon.pinfo.gui.main;
 
-import com.google.gson.JsonObject;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import photon.pinfo.gui.Scoreboard.ScoreboardMain;
+import photon.pinfo.gui.ip.IPAPI;
 import photon.pinfo.main.Main;
-import photon.pinfo.gui.Scoreboard.Scoreboard;
 
 public class GUI {
-    Player target;
+    private IPAPI ipapi;
+    private Main Main;
+    public GUI(Main Main,IPAPI ipapi){
+        this.Main=Main;
+        this.ipapi=ipapi;
+        sb=new ScoreboardMain(ipapi);
+    }
+    private ScoreboardMain sb;
+    private Player target;
     public void setGUI(Player target){
         this.target=target;
-        send("@infoAdmin mode activated!");
+        if(ipapi.loadData(target)){
+            sb.setScoreboardNormal(target);
+        }else{
+            failed(target);
+        }
+    }
+    public void setGUIWithOldData(Player target){
+        if(ipapi.datas.get(target).get("scoreboardType").equals("normal")){
+            sb.setScoreboardNormal(target);
+        }else if(ipapi.datas.get(target).get("scoreboardType").equals("error")){
+            sb.setScoreboardError(target);
+        }
     }
     public void removeGUI(Player target){
         this.target=target;
-        send("@infoAdmin mode deactivated!");
+        sb.removeScoreboard(target);
     }
-    public void failed(Player target,JsonObject data){
+    public void failed(Player target){
         this.target=target;
-        send("@errI failed to retrieve the information you requested.","@errPlease send this to your staff team:","@err"+data.get("message").getAsString());
-        Scoreboard sb=new Scoreboard();
+        send("@errI failed to retrieve the IP information in the scoreboard.");
+        send("@errError message: "+ipapi.datas.get(target).get("message"));
         sb.setScoreboardError(target);
     }
 
-    public void send(String...message){
+    private void send(String...message){
         for(String line:message){
             if(line.contains("@err")){
                 line=line.replace("@err","");
