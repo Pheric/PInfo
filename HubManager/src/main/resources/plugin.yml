@@ -1,0 +1,6 @@
+name: HubManager
+version: ${project.version}
+main: net.arcanemc.hub.Main
+softdepend: [Core]
+authors: [Photon156]
+description: HubManager for ArcaneMC
