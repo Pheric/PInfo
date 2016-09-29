@@ -28,11 +28,10 @@ public class Jump implements Listener{
     double jumpMultiplier=1.5;
     double jumpY=.5;
 
-    private Player tgt;
     @EventHandler
     public void onMove(PlayerMoveEvent event){
         debug("onMove");
-        tgt=event.getPlayer();
+        Player tgt=event.getPlayer();
         debug(tgt.isFlying());
         if(tgt.getGameMode()!=GameMode.CREATIVE&&tgt.isOnGround()&&!tgt.isFlying()){
             tgt.setAllowFlight(true);
@@ -42,7 +41,7 @@ public class Jump implements Listener{
     @EventHandler
     public void flightToggle(PlayerToggleFlightEvent event){
         debug("flightToggle");
-        tgt=event.getPlayer();
+        Player tgt=event.getPlayer();
         if(tgt.getGameMode()==GameMode.CREATIVE)return;
         event.setCancelled(true);
         tgt.setAllowFlight(false);
@@ -50,11 +49,11 @@ public class Jump implements Listener{
         tgt.setVelocity(tgt.getLocation().getDirection().multiply(jumpMultiplier).setY(jumpY));
         // Effects
         tgt.getWorld().playSound(tgt.getLocation(),Sound.GHAST_FIREBALL,10,1);
-        particleTrail();
+        particleTrail(tgt);
 
         debug("Shot");
     }
-    private void particleTrail(){
+    private void particleTrail(Player tgt){
         new BukkitRunnable(){
             @Override
             public void run() {

@@ -4,3 +4,6 @@ main: net.arcanemc.hub.Main
 softdepend: [Core]
 authors: [Photon156]
 description: HubManager for ArcaneMC
+commands:
+  cloud:
+  ied:
